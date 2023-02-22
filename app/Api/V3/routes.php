@@ -17,4 +17,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get("/", 'AsampleController');
 
+Route::post("/charge-card", 'PaymentController@chargeCard');
+
 // e.g demo.test/api/v3

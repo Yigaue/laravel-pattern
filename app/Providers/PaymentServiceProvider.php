@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
+
+use App\Repositories\PaymentRepository;
+use App\Services\AmazonpayService;
 use Illuminate\Support\ServiceProvider;
 
-class PaymentServiceProviders extends ServiceProvider
+class PaymentServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -13,8 +16,9 @@ class PaymentServiceProviders extends ServiceProvider
      */
     public function register()
     {
-        $this->app(
-            
+        $this->app->bind(
+            PaymentRepository::class,
+            AmazonpayService::class
         );
     }
 
