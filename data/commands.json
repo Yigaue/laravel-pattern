@@ -1,0 +1,55 @@
+{
+  "create": [
+    { "command": "mkdir <dir>", "description": "Create a directory" },
+    { "command": "touch <file>", "description": "Create a file" }
+  ],
+  "delete": [
+    { "command": "rm <file>", "description": "Delete a file" },
+    {
+      "command": "rm -r <dir>",
+      "description": "Delete a directory recursively"
+    },
+    { "command": "rm -rf <dir>", "description": "Force delete everything in directory" }
+  ],
+  "move": [
+    { "command": "mv <src> <dst>", "description": "Move file or directory" }
+  ],
+  "copy": [
+    { "command": "cp <src> <dst>", "description": "Copy file or directory" },
+    { "command": "cp -r <src> <dst>", "description": "Copy directory recursively" }
+  ],
+  "list": [
+    { "command": "ls", "description": "List files and directories" },
+    { "command": "ls -l", "description": "List with detailed information" },
+    { "command": "ls -a", "description": "List all files including hidden" }
+  ],
+  "search": [
+    { "command": "find <dir> -name <pattern>", "description": "Search for files" },
+    { "command": "grep <pattern> <file>", "description": "Search for text in a file" }
+  ],
+  "permissions": [
+    { "command": "chmod <permissions> <file>", "description": "Change file permissions" },
+    { "command": "chown <user>:<group> <file>", "description": "Change file owner" }
+  ],
+  "network": [
+    { "command": "ping <host>", "description": "Ping a host" },
+    { "command": "curl <url>", "description": "Fetch a URL" },
+    { "command": "wget <url>", "description": "Download a file from a URL" }
+  ],
+  "process": [
+    { "command": "ps aux", "description": "List running processes" },
+    { "command": "kill <pid>", "description": "Kill a process by PID" },
+    { "command": "top", "description": "Display real-time system processes" }
+  ],
+  "system": [
+    { "command": "df -h", "description": "Display disk space usage" },
+    { "command": "free -m", "description": "Display memory usage" },
+    { "command": "uname -a", "description": "Display system information" }
+  ],
+  "archive": [
+    { "command": "tar -cvf <archive.tar> <dir>", "description": "Create a tar archive" },
+    { "command": "tar -xvf <archive.tar>", "description": "Extract a tar archive" },
+    { "command": "zip <archive.zip> <file>", "description": "Create a zip archive" },
+    { "command": "unzip <archive.zip>", "description": "Extract a zip archive" }
+  ]
+}
