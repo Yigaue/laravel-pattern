@@ -8,6 +8,10 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/fatih/color"
+
+	"github.com/lithammer/fuzzysearch/fuzzy"
 )
 
 type CommandEntry struct {
@@ -38,24 +42,64 @@ func ShowHelp(topic string) {
 		return
 	}
 
+	// If no topic is given, list all available topics
 	if topic == "" {
-		fmt.Println("Available topics:")
+		title := color.New(color.FgGreen, color.Bold).SprintFunc()
+		topicColor := color.New(color.FgYellow).SprintFunc()
+
+		fmt.Println(title("\n Available Topics:\n"))
 		for t := range data {
-			fmt.Printf("  - %s\n", t)
+			fmt.Printf("  • %s\n", topicColor(t))
 		}
-		fmt.Println("Example: linux help delete")
 		return
 	}
 
 	topic = strings.ToLower(topic)
-	commands, ok := data[topic]
-	if !ok {
-		fmt.Printf("No commands found for topic: '%s'\n", topic)
+
+	// Exact match
+	if commands, ok := data[topic]; ok {
+		printCommands(topic, commands)
 		return
 	}
 
-	fmt.Printf("Commands for '%s':\n", topic)
-	for _, cmd := range commands {
-		fmt.Printf("%-20s - %s\n", cmd.Command, cmd.Description)
+	// Fuzzy match
+	var keys []string
+	for k := range data {
+		keys = append(keys, k)
 	}
+	matches := fuzzy.Find(topic, keys)
+
+	if len(matches) > 0 {
+		bestMatch := matches[0]
+		fmt.Printf("Did you mean '%s'?\n\n", bestMatch)
+		printCommands(bestMatch, data[bestMatch])
+		return
+	}
+
+	// No matches — suggest closest
+	warn := color.New(color.FgRed, color.Bold).SprintFunc()
+	fmt.Printf("%s Unknown topic: '%s'\n", warn(""), topic)
+	fmt.Println("Use 'linux help' to see all available topics.")
+
+	suggestions := fuzzy.RankFindNormalizedFold(topic, keys)
+	for i, s := range suggestions {
+		if i >= 3 {
+			break
+		}
+		fmt.Printf("  - %s\n", s.Target)
+	}
+}
+
+func printCommands(topic string, commands []CommandEntry) {
+	header := color.New(color.FgGreen, color.Bold).SprintFunc()
+	cmdColor := color.New(color.FgCyan).SprintFunc()
+	descColor := color.New(color.FgWhite).SprintFunc()
+
+	fmt.Printf("\n%s %s\n\n", header("Topic:"), header(strings.Title(topic)))
+
+	for _, cmd := range commands {
+		fmt.Printf("  %s  %s\n", cmdColor(cmd.Command), descColor("- "+cmd.Description))
+	}
+
+	fmt.Println()
 }
