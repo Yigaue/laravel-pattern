@@ -33,7 +33,7 @@ go build -o linux
 
 ---
 
-## 🧪 Usage
+## Usage
 
 ```bash
 # Basic command
@@ -75,7 +75,7 @@ Commands are defined in a simple, editable JSON format:
 go fmt ./...
 
 # Run with test args
-go run main.go help move
+go run main.go help cat
 ```
 
 ## Contributing
